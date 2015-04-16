@@ -1,6 +1,6 @@
 Rules:
 mortal(X):-man(X),person(X)
-mortal(Y):-woman(Y)
+mortal(X):-woman(X)
 Facts:
 man(ram)
 person(ram)
