@@ -1,0 +1,9 @@
+Rules:
+mortal(X):-man(X),person(X)
+mortal(Y):-woman(Y)
+Facts:
+man(ram)
+person(ram)
+woman(sita)
+Goals:
+mortal(ram)

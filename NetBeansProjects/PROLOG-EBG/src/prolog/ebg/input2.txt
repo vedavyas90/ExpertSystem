@@ -1,0 +1,13 @@
+Rules:
+Facts:
+parent(chester,irvin).
+parent(chester,clarence).
+parent(chester,mildred).
+parent(irvin,ron).
+parent(irvin,ken).
+parent(clarence,shirley).
+parent(clarence,sharon).
+parent(clarence,charlie).
+parent(mildred,mary).
+Goals:
+parent(chester,mildred).
