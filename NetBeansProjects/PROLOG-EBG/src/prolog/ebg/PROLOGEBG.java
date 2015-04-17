@@ -188,10 +188,9 @@ public class PROLOGEBG {
         String Var1="X";
         Variables.add(Var1); 
     }
-     private boolean solveGoals(ArrayList<String> tempGoals) {
-        ArrayList<String> newGoals=new ArrayList<String>();
-        boolean flag=true;
-        /*
+    
+    
+    private void retriveGoals(ArrayList<String> tempGoals) {
         System.out.println("Stage 4: Goal solving");
         int flag=1;
         System.out.println("Goals stored are:"); 
@@ -214,27 +213,32 @@ public class PROLOGEBG {
         for(String g: tempGoals){   
             System.out.println(g);
         }
-        */
+        
+    }
+     private boolean solveGoals(ArrayList<String> tempGoals) {
+        ArrayList<String> newGoals=new ArrayList<String>();
+        boolean flag=true;
+        
         for(String g: tempGoals){  
             if(Facts.contains(g)){
                 System.out.println("direct goal ,matching fact found :"+g);
                 flag= true;    
             }
             else if(!Facts.contains(g)){
+                
                 System.out.println("you cant obtain this goal directly from given facts: "+g);    
+                
                 String funct=g.substring(0,g.indexOf("("));
                 String cons=g.substring(g.indexOf("(")+1,g.indexOf(")"));
-                
-                //System.out.println("goal has fuction "+funct +" and with constanct "+cons);    
                 String ruleKey=null;
                 Iterator itr=prules.entrySet().iterator();
                 while(itr.hasNext()){
-                  Map.Entry<String,ArrayList<ArrayList<String>>> mapEntry=(Map.Entry<String,ArrayList<ArrayList<String>>>)itr.next();
-                  String str=mapEntry.getKey();
-                  if(str.contains(funct))
-                  {
-                      ruleKey=str;
-                  }
+                    Map.Entry<String,ArrayList<ArrayList<String>>> mapEntry=(Map.Entry<String,ArrayList<ArrayList<String>>>)itr.next();
+                    String str=mapEntry.getKey();
+                    if(str.contains(funct))
+                    {
+                        ruleKey=str;
+                    }
                 }
                 if(prules.containsKey(ruleKey))
                 {
@@ -244,39 +248,36 @@ public class PROLOGEBG {
                    System.out.println("L2:");
                    System.out.println("size of rule base :-"+prules.size());
                    System.out.println("matched rules in rule base :-"+prules.get(ruleKey));
-                   for(int j=0;j<prules.get(ruleKey).size();j++){
-                        ArrayList<ArrayList<String>> premises=prules.get(ruleKey);
+                   for(int j=0;j<prules.get(ruleKey).size();j++)
+                        {
                         
-                        for(int n=0;n<premises.get(j).size();n++){
-                            String var=premises.get(j).get(n).substring(premises.get(j).get(n).indexOf("(")+1, premises.get(j).get(n).indexOf(")"));
-                            String ngoal=premises.get(j).get(n);
-                            newGoals.add(ngoal.replaceAll(var,cons));
-                            flag= solveGoals(newGoals);
-                             System.out.println(newGoals);
-                             newGoals.clear();
-                           //if(goalcheck(ngoal)){Facts.add(ngoal);}
+                            ArrayList<ArrayList<String>> premises=prules.get(ruleKey);
+                        
+                            for(int n=0;n<premises.get(j).size();n++)
+                            {
+                                String var=premises.get(j).get(n).substring(premises.get(j).get(n).indexOf("(")+1, premises.get(j).get(n).indexOf(")"));
+                                String ngoal=premises.get(j).get(n);
+                                newGoals.add(ngoal.replaceAll(var,cons));
+                                flag= solveGoals(newGoals);
+                                
+                                System.out.println(newGoals);
+                                newGoals.clear();
+                            }
+                            
+                            System.out.println("OR");
+                        
                         }
-                        System.out.println("OR");
-                       
-                    }
-                   
-                 }
-                else if(!prules.containsKey(ruleKey)){
-                System.out.println("No fact found and No Rule Found:"+g);
-                return true;    
+                   if(!flag){return flag;}
                 }
+                else if(!prules.containsKey(ruleKey)){
+                    System.out.println("No fact found and No Rule Found:"+g);
+                    return false;    
+                    }
                 
                 
+                }
             }
-        }
-//        if(flag==0)
-//        { 
-//            System.out.println("FALSE");
-//      
-//        }
-//        else
-//            System.out.println("TRUE");
-        return flag;
+            return flag;
         }
 
         public boolean goalcheck(String ngoal,ArrayList<String> goals) {
@@ -301,6 +302,8 @@ public class PROLOGEBG {
         pebg.constGen();
         System.out.println("\n\n*********************************************************************");
         
+        pebg.retriveGoals(pebg.Goals);
+         System.out.println("\n\n*********************************************************************");
         if(pebg.solveGoals(pebg.Goals)){
             System.out.println("TRUE");   
         }
