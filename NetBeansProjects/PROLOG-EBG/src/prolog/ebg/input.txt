@@ -6,4 +6,4 @@ man(ram)
 person(ram)
 woman(sita)
 Goals:
-mortal(ram)
+mortal(sita)
